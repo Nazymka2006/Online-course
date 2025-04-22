@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Вход и регистрация</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .tabs { display: flex; justify-content: center; margin-bottom: 30px; }
+    .tab-btn {
+      padding: 12px 28px;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 8px 8px 0 0;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 6px;
+      color: #007BFF;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .tab-btn.active { background: #fff; border-bottom: 2px solid #fff; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('login')">Вход</button>
+      <button class="tab-btn" onclick="showTab('register')">Регистрация</button>
+    </div>
+    <div class="tab-content active" id="login">
+      <h2>Вход для ученика</h2>
+      <form>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Пароль" required>
+        <button type="submit">Войти</button>
+      </form>
+    </div>
+    <div class="tab-content" id="register">
+      <h2>Регистрация ученика</h2>
+      <form>
+        <input type="text" placeholder="Имя" required>
+        <input type="text" placeholder="Фамилия" required>
+        <input type="text" placeholder="Класс (например, 8A)" required>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Пароль" required>
+        <button type="submit">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    function showTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+      document.getElementById(tab).classList.add('active');
+      document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+    }
+  </script>
+</body>
+</html>
