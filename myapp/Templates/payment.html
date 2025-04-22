@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Оплата курса</title>
 </head>
 <body>
-
+    <h1>Оплата курса №{{ course_id }}</h1>
+    <p>Отсканируйте QR-код, чтобы оплатить:</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=Курс+{{ course_id }}&size=200x200" alt="QR Code">
+    <p><strong>Это демонстрационная оплата.</strong></p>
 </body>
 </html>

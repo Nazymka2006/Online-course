@@ -6,11 +6,6 @@ from django.contrib.auth.models import User
 from .models import Student, Teacher, Course
 from django.shortcuts import render, get_object_or_404
 
-from django.http import HttpResponse
-
-def payment_page(request, pk):
-    return HttpResponse(f"Оплата курса с id {pk}")
-
 
 def home_page(request):
     return render(request, 'home.html')
@@ -66,3 +61,6 @@ def logout_view(request):
     return redirect('login')
 
 print("Hello from feature-new")
+
+def payment_page(request, pk):
+    return render(request, 'payment.html', {'course_id': pk})
