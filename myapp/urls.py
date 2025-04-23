@@ -12,4 +12,3 @@ urlpatterns = [
     path('course/<int:pk>/payment/', views.payment_page, name='payment_page'),
 
 ]
-
