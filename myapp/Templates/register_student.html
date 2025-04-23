@@ -1,20 +1,20 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Регистрация школьника</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <div class="form-container">
         <h2>API для онлайн-курсов</h2>
         <p>Регистрация школьника</p>
-        <form action="#">
-            <input type="text" placeholder="Имя" required>
-            <input type="text" placeholder="Фамилия" required>
-            <input type="text" placeholder="Класс (например, 9A)" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Пароль" required>
+        <form method="post">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ student_form.as_p }}
             <button type="submit">Зарегистрироваться</button>
         </form>
     </div>
