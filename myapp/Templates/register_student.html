@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация школьника</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h2>API для онлайн-курсов</h2>
+        <p>Регистрация школьника</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ student_form.as_p }}
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+</body>
+</html>
