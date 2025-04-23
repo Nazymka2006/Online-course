@@ -1,9 +1,9 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserRegisterForm, StudentRegisterForm, TeacherRegisterForm
+from .forms import UserRegisterForm, StudentRegisterForm, TeacherRegisterForm, HomeworkSubmission
 from django.contrib.auth.models import User
-from .models import Student, Teacher, Course
+from .models import Student, Teacher, Course, HomeworkSubmission
 from django.shortcuts import render, get_object_or_404
 
 from django.http import HttpResponse
@@ -12,8 +12,10 @@ def payment_page(request, pk):
     return HttpResponse(f"Оплата курса с id {pk}")
 
 
-def home_page(request):
-    return render(request, 'home.html')
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'Templates/home_page.html', {'courses': courses})
+
 
 def course_detail(request, pk):
     course = get_object_or_404(Course, pk=pk)
@@ -64,5 +66,28 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+def submit_homework(request, homework_id):
+    homework = get_object_or_404(Homework, id=homework_id)
+    student = get_object_or_404(Student, user=request.user)
+
+    if request.method == 'POST':
+        form = HomeworkSubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.homework = homework
+            submission.student = student
+            submission.save()
+            return redirect('home')  # можешь изменить на 'student_profile'
+    else:
+        form = HomeworkSubmissionForm()
+
+    return render(request, 'submit_homework.html', {
+        'form': form,
+        'homework': homework,
+    })
+
+
 
 print("Hello from feature-new")

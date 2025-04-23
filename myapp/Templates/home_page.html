@@ -2,21 +2,18 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация школьника</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Онлайн Курсы</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <div class="form-container">
-        <h2>API для онлайн-курсов</h2>
-        <p>Регистрация школьника</p>
-        <form action="#">
-            <input type="text" placeholder="Имя" required>
-            <input type="text" placeholder="Фамилия" required>
-            <input type="text" placeholder="Класс (например, 9A)" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Пароль" required>
-            <button type="submit">Зарегистрироваться</button>
-        </form>
+    <h1>Список курсов</h1>
+    {% for course in courses %}
+    <div class="course-card">
+        <h2>{{ course.title }}</h2>
+        <p>{{ course.description }}</p>
+        <p><strong>Преподаватель:</strong> {{ course.teacher.user.get_full_name }}</p>
+        <a href="{% url 'course_detail' course.id %}">Подробнее</a>
     </div>
+    {% endfor %}
 </body>
 </html>
