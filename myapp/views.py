@@ -1,7 +1,10 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserRegisterForm, StudentRegisterForm, TeacherRegisterForm, HomeworkSubmission
+from .forms import UserRegisterForm, StudentRegisterForm, TeacherRegisterForm, HomeworkSubmission, CourseEnrollmentForm
+from django.contrib.auth.forms import AuthenticationForm
+
+
 from django.contrib.auth.models import User
 from .models import Student, Teacher, Course, HomeworkSubmission
 from django.shortcuts import render, get_object_or_404
@@ -14,7 +17,7 @@ def payment_page(request, pk):
 
 def course_list(request):
     courses = Course.objects.all()
-    return render(request, 'Templates/home_page.html', {'courses': courses})
+    return render(request, 'home_page.html', {'courses': courses})
 
 
 def course_detail(request, pk):
@@ -60,7 +63,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('home_page')
+            return redirect('home')
     return render(request, 'login.html')
 
 def logout_view(request):
@@ -87,6 +90,52 @@ def submit_homework(request, homework_id):
         'form': form,
         'homework': homework,
     })
+
+def login_register_page(request):
+    login_form = AuthenticationForm()
+    student_user_form = UserRegisterForm()
+    teacher_user_form = UserRegisterForm()
+    student_form = StudentForm()
+    teacher_form = TeacherForm()
+    return render(request, 'login_register.html', {
+        'login_form': login_form,
+        'student_user_form': student_user_form,
+        'student_form': student_form,
+        'teacher_user_form': teacher_user_form,
+        'teacher_form': teacher_form,
+    })
+
+
+# views.py
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def enroll_courses(request):
+    student = Student.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = CourseEnrollmentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # или 'student_dashboard'
+    else:
+        form = CourseEnrollmentForm(instance=student)
+
+    return render(request, 'enroll_courses.html', {'form': form})
+
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def student_dashboard(request):
+    student = Student.objects.get(user=request.user)
+    enrolled_courses = student.courses.all()
+    return render(request, 'student_dashboard.html', {
+        'student': student,
+        'courses': enrolled_courses
+    })
+
+
 
 
 

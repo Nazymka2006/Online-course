@@ -10,6 +10,10 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('submit_homework/<int:homework_id>/', views.submit_homework, name='submit_homework'),
+    path('enroll/', views.enroll_courses, name='enroll_courses'),
+    path('dashboard/student/', views.student_dashboard, name='student_dashboard'),
+
+
 
 ]
 

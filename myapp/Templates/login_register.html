@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход и Регистрация{% endblock %}
+
+{% block content %}
+<div class="card p-4 shadow-sm">
+    <div class="d-flex justify-content-center mb-4">
+        <button class="btn btn-outline-primary me-2" onclick="showTab('login')">Вход</button>
+        <button class="btn btn-outline-success me-2" onclick="showTab('student')">Регистрация студента</button>
+        <button class="btn btn-outline-warning" onclick="showTab('teacher')">Регистрация преподавателя</button>
+    </div>
+
+    <!-- Вход -->
+    <div id="tab-login">
+        <h3>Вход</h3>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ login_form.as_p }}
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+    </div>
+
+    <!-- Регистрация студента -->
+    <div id="tab-student" style="display: none;">
+        <h3>Регистрация студента</h3>
+        <form method="post" action="{% url 'register_student' %}">
+            {% csrf_token %}
+            {{ student_user_form.as_p }}
+            {{ student_form.as_p }}
+            <button type="submit" class="btn btn-success">Зарегистрироваться как студент</button>
+        </form>
+    </div>
+
+    <!-- Регистрация преподавателя -->
+    <div id="tab-teacher" style="display: none;">
+        <h3>Регистрация преподавателя</h3>
+        <form method="post" action="{% url 'register_teacher' %}">
+            {% csrf_token %}
+            {{ teacher_user_form.as_p }}
+            {{ teacher_form.as_p }}
+            <button type="submit" class="btn btn-warning">Зарегистрироваться как преподаватель</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showTab(tab) {
+        document.getElementById("tab-login").style.display = "none";
+        document.getElementById("tab-student").style.display = "none";
+        document.getElementById("tab-teacher").style.display = "none";
+        document.getElementById("tab-" + tab).style.display = "block";
+    }
+</script>
+{% endblock %}
