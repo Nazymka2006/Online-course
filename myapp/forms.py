@@ -41,3 +41,10 @@ class CourseEnrollmentForm(forms.ModelForm):
         fields = ['courses']
 
 
+class CourseCreateForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['title', 'description']
+
+
+

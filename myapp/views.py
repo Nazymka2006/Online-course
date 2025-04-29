@@ -135,6 +135,45 @@ def student_dashboard(request):
         'courses': enrolled_courses
     })
 
+from django.contrib.auth.decorators import login_required
+from .models import Teacher, Course
+
+@login_required
+def teacher_dashboard(request):
+    try:
+        teacher = Teacher.objects.get(user=request.user)
+        courses = Course.objects.filter(teacher=teacher)
+    except Teacher.DoesNotExist:
+        teacher = None
+        courses = []
+
+    return render(request, 'teacher_dashboard.html', {
+        'teacher': teacher,
+        'courses': courses
+    })
+
+from .forms import CourseCreateForm
+
+@login_required
+def create_course(request):
+    try:
+        teacher = Teacher.objects.get(user=request.user)
+    except Teacher.DoesNotExist:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = CourseCreateForm(request.POST)
+        if form.is_valid():
+            course = form.save(commit=False)
+            course.teacher = teacher  # автоматическая привязка
+            course.save()
+            return redirect('teacher_dashboard')
+    else:
+        form = CourseCreateForm()
+
+    return render(request, 'create_course.html', {'form': form})
+
+
 
 
 

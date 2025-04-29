@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Создать курс{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Создать новый курс</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Создать курс</button>
+        <a href="{% url 'teacher_dashboard' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

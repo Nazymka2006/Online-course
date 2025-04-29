@@ -11,6 +11,5 @@ router.register(r'homeworks', HomeworkViewSet)
 router.register(r'submissions', HomeworkSubmissionViewSet)
 router.register(r'payments', PaymentViewSet)
 
-urlpatterns = [
-    path('', include(router.urls)),
-]
+urlpatterns = router.urls  # ← просто это
+

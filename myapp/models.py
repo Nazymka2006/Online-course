@@ -65,3 +65,5 @@ class Payment(models.Model):
     def __str__(self):
         return f"{self.student.user.username} - {self.course.title} - {'Paid' if self.is_paid else 'Unpaid'}"
 
+
+
