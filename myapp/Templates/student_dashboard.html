@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет студента{% endblock %}
+
+{% block content %}
+<h2>Привет, {{ student.user.first_name|default:student.user.username }}!</h2>
+
+<h4 class="mt-4">Твои курсы:</h4>
+<ul class="list-group mb-4">
+    {% for course in courses %}
+        <li class="list-group-item">
+            <strong>{{ course.title }}</strong><br>
+            <small>{{ course.description|truncatewords:20 }}</small>
+        </li>
+    {% empty %}
+        <li class="list-group-item text-muted">Ты пока не записан ни на один курс.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'enroll_courses' %}" class="btn btn-outline-primary">Выбрать/изменить курсы</a>
+{% endblock %}

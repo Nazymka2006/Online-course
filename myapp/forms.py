@@ -1,13 +1,15 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Student, Teacher, HomeworkSubmission
+from .models import Student, Teacher, HomeworkSubmission, Course
 
-class UserRegisterForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
 
+from django.contrib.auth.forms import UserCreationForm
+
+class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password1', 'password2']
+
 
 class StudentRegisterForm(forms.ModelForm):
     class Meta:
@@ -24,3 +26,18 @@ class HomeworkSubmissionForm(forms.ModelForm):
     class Meta:
         model = HomeworkSubmission
         fields = ['file']
+
+# для выбора курсов
+class CourseEnrollmentForm(forms.ModelForm):
+    courses = forms.ModelMultipleChoiceField(
+        queryset=Course.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label="Выберите курсы"
+    )
+
+    class Meta:
+        model = Student
+
+        fields = ['courses']
+
+
