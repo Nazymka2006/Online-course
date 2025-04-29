@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Кабинет преподавателя{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Добро пожаловать, {{ teacher.user.first_name|default:teacher.user.username }}!</h2>
+
+    <h4>Ваши курсы:</h4>
+
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.title }}</h5>
+                    <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+                    <a href="{% url 'course_detail' course.id %}" class="btn btn-outline-primary">Открыть курс</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>У вас пока нет курсов.</p>
+        {% endfor %}
+    </div>
+
+    <a href="#" class="btn btn-success mt-3">➕ Добавить новый курс (пока макет)</a>
+    <a href="{% url 'create_course' %}" class="btn btn-success mt-3">➕ Добавить новый курс</a>
+
+</div>
+{% endblock %}

@@ -1,5 +1,8 @@
-from django.urls import path
+from django.contrib import admin
+from django.urls import path, include
 from . import views
+
+
 
 urlpatterns = [
     path('', views.course_list, name='home'),
@@ -12,8 +15,8 @@ urlpatterns = [
     path('submit_homework/<int:homework_id>/', views.submit_homework, name='submit_homework'),
     path('enroll/', views.enroll_courses, name='enroll_courses'),
     path('dashboard/student/', views.student_dashboard, name='student_dashboard'),
-
-
+    path('api/', include('myapp.urls_api')),
+    path('dashboard/teacher/', views.teacher_dashboard, name='teacher_dashboard'),
+    path('dashboard/teacher/create/', views.create_course, name='create_course'),
 
 ]
-

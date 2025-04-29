@@ -1,21 +1,30 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Онлайн Курсы</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
-    <h1>Список курсов</h1>
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-5 fw-bold">Доступные курсы</h1>
+    <p class="text-muted">Выберите курс и начните обучение прямо сейчас.</p>
+</div>
+
+<div class="row">
     {% for course in courses %}
-    <div class="course-card">
-        <h2>{{ course.title }}</h2>
-        <p>{{ course.description }}</p>
-        <p><strong>Преподаватель:</strong> {{ course.teacher.user.get_full_name }}</p>
-        <a href="{% url 'course_detail' course.id %}">Подробнее</a>
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ course.title }}</h5>
+                <p class="card-text text-muted">{{ course.description|truncatewords:20 }}</p>
+                <a href="{% url 'course_detail' course.id %}" class="btn btn-primary mt-auto w-100">
+                    Перейти к курсу
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="text-center">
+        <p class="text-secondary">Пока нет доступных курсов.</p>
     </div>
     {% endfor %}
-</body>
-</html>
+</div>
+{% endblock %}
